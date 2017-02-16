@@ -28,16 +28,6 @@ import spark.routematch.RouteMatch;
 public class SimpleRouteMatcher extends Routes {
 
     /**
-     * @param route      the route
-     * @param acceptType the accept type
-     * @param target     the target
-     * @deprecated
-     */
-    public void parseValidateAddRoute(String route, String acceptType, Object target) {
-        add(route, acceptType, target);
-    }
-
-    /**
      * @param httpMethod the HttpMethod
      * @param path       the path
      * @param acceptType the accept type
