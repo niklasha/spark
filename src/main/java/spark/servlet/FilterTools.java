@@ -30,7 +30,7 @@ final class FilterTools {
     private FilterTools() {
     }
 
-    static String getRelativePath(HttpServletRequest request, String filterPath) {
+    static String getRelativePath(HttpServletRequest request, String filterPath, boolean decode) {
         String path = request.getRequestURI();
         String contextPath = request.getContextPath();
 
@@ -51,10 +51,12 @@ final class FilterTools {
             path = SLASH + path;
         }
 
-        try {
-            path = URLDecoder.decode(path, "UTF-8");
-        } catch (UnsupportedEncodingException ex) {
-            // this can't really ever happen
+        if (decode) {
+            try {
+        	path = URLDecoder.decode(path, "UTF-8");
+            } catch (UnsupportedEncodingException ex) {
+        	// this can't really ever happen
+            }
         }
         return path;
     }

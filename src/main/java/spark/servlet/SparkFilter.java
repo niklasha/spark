@@ -145,21 +145,22 @@ public class SparkFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request; // NOSONAR
         HttpServletResponse httpResponse = (HttpServletResponse) response; // NOSONAR
 
-        final String relativePath = FilterTools.getRelativePath(httpRequest, filterPath);
+        final String relativePathDecoded = FilterTools.getRelativePath(httpRequest, filterPath, true);
+        final String relativePathEncoded = FilterTools.getRelativePath(httpRequest, filterPath, false);
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug(relativePath);
+            LOG.debug(relativePathEncoded);
         }
 
         HttpServletRequestWrapper requestWrapper = new HttpServletRequestWrapper(httpRequest) {
             @Override
             public String getPathInfo() {
-                return relativePath;
+                return relativePathDecoded;
             }
 
             @Override
             public String getRequestURI() {
-                return relativePath;
+                return relativePathEncoded;
             }
         };
 
