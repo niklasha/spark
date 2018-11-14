@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import spark.CustomErrorPages;
+import spark.ExceptionMapper;
 import spark.HaltException;
 import spark.RequestResponseFactory;
 import spark.Response;
@@ -52,6 +53,7 @@ public class MatcherFilter implements Filter {
 
     private spark.route.Routes routeMatcher;
     private SerializerChain serializerChain;
+    private ExceptionMapper exceptionMapper;
 
     private boolean externalContainer;
     private boolean hasOtherHandlers;
@@ -67,11 +69,13 @@ public class MatcherFilter implements Filter {
      */
     public MatcherFilter(spark.route.Routes routeMatcher,
                          StaticFilesConfiguration staticFiles,
+                         ExceptionMapper exceptionMapper,
                          boolean externalContainer,
                          boolean hasOtherHandlers) {
 
         this.routeMatcher = routeMatcher;
         this.staticFiles = staticFiles;
+        this.exceptionMapper = exceptionMapper;
         this.externalContainer = externalContainer;
         this.hasOtherHandlers = hasOtherHandlers;
         this.serializerChain = new SerializerChain();
@@ -142,6 +146,7 @@ public class MatcherFilter implements Filter {
                         body,
                         requestWrapper,
                         responseWrapper,
+                        exceptionMapper,
                         generalException);
 
             }
@@ -158,7 +163,7 @@ public class MatcherFilter implements Filter {
                 }
             }
 
-            if (body.notSet() && !externalContainer) {
+            if (body.notSet()) {
                 LOG.info("The requested route [{}] has not been mapped in Spark for {}: [{}]",
                          uri, ACCEPT_TYPE_REQUEST_MIME_HEADER, acceptType);
                 httpResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -181,6 +186,7 @@ public class MatcherFilter implements Filter {
                         body,
                         requestWrapper,
                         responseWrapper,
+                        exceptionMapper,
                         generalException);
             }
         }

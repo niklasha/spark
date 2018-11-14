@@ -75,12 +75,21 @@ public class SocketConnectorFactory {
             sslContextFactory.setKeyStorePassword(sslStores.keystorePassword());
         }
 
+        if (sslStores.certAlias() != null) {
+            sslContextFactory.setCertAlias(sslStores.certAlias());
+        }
+
         if (sslStores.trustStoreFile() != null) {
             sslContextFactory.setTrustStorePath(sslStores.trustStoreFile());
         }
 
         if (sslStores.trustStorePassword() != null) {
             sslContextFactory.setTrustStorePassword(sslStores.trustStorePassword());
+        }
+
+        if (sslStores.needsClientCert()) {
+            sslContextFactory.setNeedClientAuth(true);
+            sslContextFactory.setWantClientAuth(true);
         }
 
         HttpConnectionFactory httpConnectionFactory = createHttpConnectionFactory();

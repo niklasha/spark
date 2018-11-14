@@ -1,29 +1,37 @@
-![](https://img.shields.io/travis/perwendel/spark.svg) 
-![](https://img.shields.io/github/license/perwendel/spark.svg)
-![](https://img.shields.io/maven-central/v/com.sparkjava/spark-core.svg)
+[![](https://img.shields.io/travis/perwendel/spark.svg)](https://travis-ci.org/perwendel/spark)
+[![](https://img.shields.io/github/license/perwendel/spark.svg)](./LICENSE)
+[![](https://img.shields.io/maven-central/v/com.sparkjava/spark-core.svg)](http://mvnrepository.com/artifact/com.sparkjava/spark-core)
 
 Spark - a tiny web framework for Java 8
 ==============================================
-IMPORTANT INFORMATION - There has been found a security vulnerability in older versions of Spark 2.+. Please upgrade to the latest version 2.5.5 (2.5.2 fixed this issue)
 
-For more detailed documentation please go to: http://sparkjava.com/documentation
+**NEWS**: Spark 2.8.0 is out. Please try it out and report any bugs.
+```xml
+<dependency>
+    <groupId>com.sparkjava</groupId>
+    <artifactId>spark-core</artifactId>
+    <version>2.8.0</version>
+</dependency>
+```
 
-NEWS: Spark 2.5.5 is out! (IMPORTANT fix for directory traversal vulnerability was fixed in 2.5.2!)
+Important - There is a vulnerability in older versions of Spark (versions lower than 2.5.2). Please upgrade to the latest version.
+
+For documentation please go to: http://sparkjava.com/documentation
+
+For usage questions, please use [stack overflow with the “spark-java” tag](http://stackoverflow.com/questions/tagged/spark-java) 
+
+Javadoc: http://javadoc.io/doc/com.sparkjava/spark-core
+
+Getting started
+---------------
 
 ```xml
 <dependency>
     <groupId>com.sparkjava</groupId>
     <artifactId>spark-core</artifactId>
-    <version>2.5.5</version>
+    <version>2.8.0</version>
 </dependency>
 ```
-
-For questions about using Spark, post on our Google Group: https://groups.google.com/d/forum/sparkjava
-
-Temporary javadoc: http://spark.screenisland.com
-
-Getting started
----------------
 
 ```java
 import static spark.Spark.*;
@@ -269,9 +277,9 @@ public class FilterExample {
 
         after("/hello", (request, response) -> response.header("spark", "added by after-filter"));
 
-        done("/hello", (request, response) -> response.header("finally", "executed even if exception is throw"));
+        afterAfter("/hello", (request, response) -> response.header("finally", "executed even if exception is throw"));
 
-        done((request, response) -> response.header("finally", "executed after any route even if exception is throw"));
+        afterAfter((request, response) -> response.header("finally", "executed after any route even if exception is throw"));
     }
 }
 ```
@@ -439,3 +447,7 @@ public class TransformerExample {
     }
 }
 ```
+
+Debugging
+------------------
+See [Spark-debug-tools](https://github.com/perwendel/spark-debug-tools) as a separate module.
